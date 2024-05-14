@@ -1,0 +1,1 @@
+export 'queries/get_contacts_query_impl.dart';
