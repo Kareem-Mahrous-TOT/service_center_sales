@@ -34,6 +34,7 @@ class ContactsScreen extends StatelessWidget {
                     status: contacts[index].status.toString(),
                     onTap: () => context.goNamed(Routes.contactStatusRoute,
                         pathParameters: {
+                          'status': contacts[index].status.toString(),
                           'id': contacts[index].contactId.toString()
                         }),
                   ),

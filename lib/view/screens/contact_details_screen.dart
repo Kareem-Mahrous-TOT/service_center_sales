@@ -2,22 +2,25 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_components/mobile_components.dart';
-import 'package:service_center_sales/domain/entities/contact.dart';
+import 'package:service_center_sales/view/view.dart';
 
 import '../../domain/enums/contact_status.dart';
-import '../view.dart';
+import '../blocs/contact_details/contact_details_bloc.dart';
 
-class ContactStatusScreen extends StatefulWidget {
+class ContactDetailsScreen extends StatefulWidget {
   final int id;
-  const ContactStatusScreen({super.key, required this.id});
+  final ContactStatus? currentStatus;
+  const ContactDetailsScreen(
+      {super.key, required this.id, required this.currentStatus});
 
   @override
-  State<ContactStatusScreen> createState() => _ContactStatusScreenState();
+  State<ContactDetailsScreen> createState() => _ContactDetailsScreenState();
 }
 
-class _ContactStatusScreenState extends State<ContactStatusScreen> {
-  ContactStatus? _status = ContactStatus.lead;
+class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
+  ContactStatus? _status;
 
   void _handleRadioValueChanged(ContactStatus? value) {
     setState(() {
@@ -27,39 +30,33 @@ class _ContactStatusScreenState extends State<ContactStatusScreen> {
 
   @override
   void initState() {
-    //TODO: add getContactById
-
-    // context.read<DoctorBloc>().add(DoctorEvent.getDoctorById(id: widget.id));
     super.initState();
+    _status = widget.currentStatus;
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) async {
+      context.read<ContactDetailsBloc>().add(GetContact(
+          contactId: widget.id,
+          contacts: (context.read<ContactsBloc>().state as ContactsSuccess)
+              .contacts));
+    });
+    log("status:========> $_status");
   }
 
   @override
   Widget build(BuildContext context) {
-    const ContactEntity dummyContact = ContactEntity(
-      contactId: 0,
-      firstName: "firstName",
-      lastName: "lastName",
-      email: "email",
-      gender: "gender",
-      city: "city",
-      country: "country",
-      postalCode: "postalCode",
-      status: ContactStatus.lead,
-    );
-    return BlocBuilder<ContactsBloc, ContactsState>(
+    return BlocBuilder<ContactDetailsBloc, ContactDetailsState>(
         builder: (context, state) => switch (state) {
-              ContactsLoading() => const LoadingWidget(
+              ContactDetailsLoading() => const Scaffold(
+                    body: Center(
+                        child: LoadingWidget(
+                  color: Colors.grey,
                   height: 100,
                   width: 100,
-                ),
-              ContactsFailure(:final msg) => Text(msg),
-              ContactsSuccess(:final contacts) => Scaffold(
+                ))),
+              ContactDetailsFailure(:final msg) =>
+                Scaffold(body: Center(child: Text(msg))),
+              ContactDetailsSuccess(:final contact) => Scaffold(
                   appBar: AppBar(
-                    title: Text(contacts
-                        .firstWhere(
-                            orElse: () => dummyContact,
-                            (element) => element.contactId == widget.id)
-                        .firstName),
+                    title: Text(contact.firstName),
                   ),
                   bottomNavigationBar: SizedBox(
                     width: MediaQuery.sizeOf(context).width,
@@ -72,6 +69,12 @@ class _ContactStatusScreenState extends State<ContactStatusScreen> {
                       onPressed: () {
                         // Handle the form submission here
                         log('Selected Contact Status: $_status');
+                        context.read<ContactDetailsBloc>().add(
+                            ChangeStatusEvent(
+                                contactId: widget.id,
+                                status: _status.toString()));
+                        context.read<ContactsBloc>().add(GetContactsEvent());
+                        context.pop();
                       },
                       child: const Text('Submit'),
                     ),
@@ -95,12 +98,7 @@ class _ContactStatusScreenState extends State<ContactStatusScreen> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              contacts
-                                  .firstWhere(
-                                      orElse: () => dummyContact,
-                                      (element) =>
-                                          element.contactId == widget.id)
-                                  .firstName,
+                              contact.firstName,
                               style: const TextStyle(fontSize: 15),
                             ),
                             const SizedBox(height: 20),
@@ -110,12 +108,7 @@ class _ContactStatusScreenState extends State<ContactStatusScreen> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              contacts
-                                  .firstWhere(
-                                      orElse: () => dummyContact,
-                                      (element) =>
-                                          element.contactId == widget.id)
-                                  .email,
+                              contact.email,
                               style: const TextStyle(fontSize: 15),
                             ),
                             const SizedBox(height: 20),
@@ -125,12 +118,7 @@ class _ContactStatusScreenState extends State<ContactStatusScreen> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              contacts
-                                  .firstWhere(
-                                      orElse: () => dummyContact,
-                                      (element) =>
-                                          element.contactId == widget.id)
-                                  .city,
+                              contact.city,
                               style: const TextStyle(fontSize: 15),
                             ),
                             const SizedBox(height: 20),

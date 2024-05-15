@@ -102,6 +102,36 @@ abstract class AppLang {
   /// In en, this message translates to:
   /// **'Available Dates'**
   String get availableDates;
+
+  /// No description provided for @appointmentCreatedSuccessfullyMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Created Successfully'**
+  String get appointmentCreatedSuccessfullyMsg;
+
+  /// No description provided for @subscriptionCreatedSuccessfullyMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Created Successfully'**
+  String get subscriptionCreatedSuccessfullyMsg;
+
+  /// No description provided for @subscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get subscribe;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
 }
 
 class _AppLangDelegate extends LocalizationsDelegate<AppLang> {

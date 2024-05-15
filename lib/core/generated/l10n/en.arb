@@ -1,5 +1,10 @@
 {
     "@@locale": "en",
     "somethingWentWrongMsg": "Sorry, something went wrong!",
-    "availableDates": "Available Dates"
+    "availableDates": "Available Dates",
+    "appointmentCreatedSuccessfullyMsg": "Appointment Created Successfully",
+    "subscriptionCreatedSuccessfullyMsg": "Subscription Created Successfully",
+    "subscribe": "Subscribe",
+    "login": "Login",
+    "register": "Register"
 }

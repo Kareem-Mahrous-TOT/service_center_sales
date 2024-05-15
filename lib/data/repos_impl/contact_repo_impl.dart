@@ -13,7 +13,7 @@ class ContactRepoImpl implements ContactRepo {
   @override
   FutureEitherFailureOr<List<ContactEntity>> getContacts() async {
     try {
-      final result = await _contactsDatasource.getContactDataSource();
+      final result = await _contactsDatasource.getContacts();
 
       return result.fold((failure) => Left(failure), (json) {
         final didSucceed = (json["isSuccess"] == true);
@@ -22,6 +22,25 @@ class ContactRepoImpl implements ContactRepo {
             .toList();
         return didSucceed
             ? Right(contacts)
+            : Left(ServerFailure(msg: json['errors']));
+      });
+    } catch (e) {
+      return Left(ServerFailure(msg: e.toString()));
+    }
+  }
+
+  @override
+  FutureEitherFailureOr<ContactEntity> changeStatus(
+      {required int contactId, required String status}) async {
+    try {
+      final result = await _contactsDatasource.changeStatus(
+          status: status, contactId: contactId);
+
+      return result.fold((failure) => Left(failure), (json) {
+        final didSucceed = (json["isSuccess"] == true);
+        ContactEntity contact = ContactEntity.fromJson(json['value']);
+        return didSucceed
+            ? Right(contact)
             : Left(ServerFailure(msg: json['errors']));
       });
     } catch (e) {

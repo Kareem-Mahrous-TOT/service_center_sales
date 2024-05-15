@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:service_center_sales/view/screens/contacts_screen.dart';
+import '/domain/enums/contact_status.dart';
+import '/view/screens/auth_screen.dart';
+import '/view/screens/contacts_screen.dart';
 
-import '../../view/screens/contact_status_screen.dart';
+import '../../view/screens/contact_details_screen.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -20,7 +22,7 @@ final appRouter = GoRouter(
     GoRoute(
       name: Routes.loginRoute,
       path: "/${Routes.loginRoute}",
-      redirect: (context, state) => '/',
+      builder: (context, state) => const AuthScreen(),
     ),
     GoRoute(
         path: '/',
@@ -31,29 +33,16 @@ final appRouter = GoRouter(
         routes: [
           GoRoute(
             name: Routes.contactStatusRoute,
-            path: "${Routes.contactStatusRoute}/:id",
+            path: "${Routes.contactStatusRoute}/:id/:status",
             builder: (context, state) {
               final contactId = int.parse(state.pathParameters['id'] as String);
-              return ContactStatusScreen(id: contactId);
+              final status = state.pathParameters['status'] as String;
+              return ContactDetailsScreen(
+                id: contactId,
+                currentStatus: ContactStatus.fromString(status),
+              );
             },
           ),
-          // GoRoute(
-          //   name: Routes.packgeDetailsRoute,
-          //   path: "${Routes.packgeDetailsRoute}/:id",
-          //   builder: (context, state) {
-          //     final categoryId =
-          //         int.parse(state.pathParameters['id'] as String);
-          //     return ServicePackageScreen(servicePackageId: categoryId);
-          //   },
-          // ),
-          // GoRoute(
-          //   name: Routes.serviceDetailsRoute,
-          //   path: "${Routes.serviceDetailsRoute}/:id",
-          //   builder: (context, state) {
-          //     final serviceId = int.parse(state.pathParameters['id'] as String);
-          //     return ServiceDetailsScreen(serviceId: serviceId);
-          //   },
-          // ),
         ])
   ],
 );

@@ -15,12 +15,11 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   FutureEitherFailureOrMap login(LoginInputs inputs) async {
     try {
-      // final response = await _apiConsumer.post(
-      //   path: EndPoints.login,
-      //   body: inputs.toJson(),
-      // );
-      // return response;
-      return const Right({"accessToken": "accessToken"});
+      final response = await _apiConsumer.post(
+        path: EndPoints.login,
+        body: inputs.toJson(),
+      );
+      return response;
     } catch (e) {
       return Left(ServerFailure(msg: e.toString()));
     }

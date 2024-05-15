@@ -9,4 +9,19 @@ class AppLangEn extends AppLang {
 
   @override
   String get availableDates => 'Available Dates';
+
+  @override
+  String get appointmentCreatedSuccessfullyMsg => 'Appointment Created Successfully';
+
+  @override
+  String get subscriptionCreatedSuccessfullyMsg => 'Subscription Created Successfully';
+
+  @override
+  String get subscribe => 'Subscribe';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get register => 'Register';
 }

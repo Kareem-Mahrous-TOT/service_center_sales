@@ -14,6 +14,14 @@ final class ContactsSuccess extends ContactsState {
 
   const ContactsSuccess({required this.contacts});
 
+  ContactsSuccess copyWith({
+    List<ContactEntity>? contacts,
+  }) {
+    return ContactsSuccess(
+      contacts: contacts ?? this.contacts,
+    );
+  }
+
   @override
   List<Object> get props => [contacts];
 }
