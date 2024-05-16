@@ -24,4 +24,31 @@ class AppLangEn extends AppLang {
 
   @override
   String get register => 'Register';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get lead => 'Lead';
+
+  @override
+  String get leads => 'Leads';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get customer => 'Customer';
+
+  @override
+  String get submit => 'Submit';
 }

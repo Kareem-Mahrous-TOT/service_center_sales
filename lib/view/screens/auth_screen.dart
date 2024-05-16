@@ -21,7 +21,7 @@ class AuthScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Color.fromARGB(255, 203, 197, 197),
+          backgroundColor: AppColors.background,
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
@@ -51,16 +51,6 @@ class AuthScreen extends StatelessWidget {
                         height: 50,
                       ),
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    const Text(
-                      '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
                   ],
                 ),
               ),
@@ -84,7 +74,7 @@ class AuthScreen extends StatelessWidget {
                                   .add(LoginEvent(loginInputs));
                             },
                           );
-                        }).then((value) {});
+                        });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

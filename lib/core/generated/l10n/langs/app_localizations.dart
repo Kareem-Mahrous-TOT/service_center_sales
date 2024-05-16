@@ -132,6 +132,60 @@ abstract class AppLang {
   /// In en, this message translates to:
   /// **'Register'**
   String get register;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @lead.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead'**
+  String get lead;
+
+  /// No description provided for @leads.
+  ///
+  /// In en, this message translates to:
+  /// **'Leads'**
+  String get leads;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @customer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get customer;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
 }
 
 class _AppLangDelegate extends LocalizationsDelegate<AppLang> {

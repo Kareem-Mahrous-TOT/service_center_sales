@@ -111,7 +111,6 @@ class DioConsumer implements ApiConsumer {
             exception = const InternalServerErrorException();
         }
         break;
-      // TODO: Handle these cases.
       case DioExceptionType.cancel:
       case DioExceptionType.badCertificate:
       case DioExceptionType.connectionError:

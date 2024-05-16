@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import '../../core/core.dart';
@@ -16,14 +18,15 @@ class AuthRepoImpl implements AuthRepo {
     final result = await _authDataSource.login(inputs);
 
     return result.fold(
-      (failure) => Left(failure),
-      (json) => Right(LoginResponse.fromJson(json)),
+      (failure) {
+        log("========>>>$failure");
+        return Left(failure);
+      },
+      (json) {
+        final response = LoginResponse.fromJson(json['value']);
+        log("========>>>$response");
+        return Right(response);
+      },
     );
-  }
-
-  @override
-  FutureEitherFailureOr<bool> register() {
-    // TODO: implement register
-    throw UnimplementedError();
   }
 }

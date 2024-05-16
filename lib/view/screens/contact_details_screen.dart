@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_components/mobile_components.dart';
+import 'package:service_center_sales/core/core.dart';
 import 'package:service_center_sales/view/view.dart';
 
 import '../../domain/enums/contact_status.dart';
 import '../blocs/contact_details/contact_details_bloc.dart';
+import '../constants/app_colors.dart';
 
 class ContactDetailsScreen extends StatefulWidget {
   final int id;
@@ -38,7 +40,6 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
           contacts: (context.read<ContactsBloc>().state as ContactsSuccess)
               .contacts));
     });
-    log("status:========> $_status");
   }
 
   @override
@@ -46,65 +47,106 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
     return BlocBuilder<ContactDetailsBloc, ContactDetailsState>(
         builder: (context, state) => switch (state) {
               ContactDetailsLoading() => const Scaffold(
-                    body: Center(
-                        child: LoadingWidget(
-                  color: Colors.grey,
-                  height: 100,
-                  width: 100,
-                ))),
+                  backgroundColor: AppColors.background,
+                  body: Center(
+                      child: LoadingWidget(
+                    color: Colors.grey,
+                    height: 100,
+                    width: 100,
+                  ))),
               ContactDetailsFailure(:final msg) =>
                 Scaffold(body: Center(child: Text(msg))),
               ContactDetailsSuccess(:final contact) => Scaffold(
+                  backgroundColor: AppColors.background,
                   appBar: AppBar(
-                    title: Text(contact.firstName),
+                    title: Text(
+                        "${contact.firstName.substring(0, 1).toUpperCase()}${contact.firstName.substring(1)} ${contact.lastName.substring(0, 1).toUpperCase()}${contact.lastName.substring(1)}"),
                   ),
                   bottomNavigationBar: SizedBox(
                     width: MediaQuery.sizeOf(context).width,
                     height: kBottomNavigationBarHeight - 10,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero),
-                          backgroundColor: Colors.greenAccent),
-                      onPressed: () {
-                        // Handle the form submission here
-                        log('Selected Contact Status: $_status');
-                        context.read<ContactDetailsBloc>().add(
-                            ChangeStatusEvent(
-                                contactId: widget.id,
-                                status: _status.toString()));
-                        context.read<ContactsBloc>().add(GetContactsEvent());
-                        context.pop();
-                      },
-                      child: const Text('Submit'),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 8.0, left: 8.0, right: 8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            backgroundColor: Colors.white),
+                        onPressed: () {
+                          // Handle the form submission here
+                          log('Selected Contact Status: $_status');
+                          context.read<ContactDetailsBloc>().add(
+                              ChangeStatusEvent(
+                                  contactId: widget.id,
+                                  status: _status.toString()));
+                          context.read<ContactsBloc>().add(GetContactsEvent());
+                          context.pop();
+                        },
+                        child: Text(
+                          context.tr.submit,
+                          style: const TextStyle(
+                              color: AppColors.totColor, fontSize: 16),
+                        ),
+                      ),
                     ),
                   ),
                   body: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: SingleChildScrollView(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Center(
                               child: Image.asset(
-                                "assets/images/app_logo.png",
+                                ImgsManager.placeHolder,
                                 height: 300,
                               ),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              'Name',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  context.tr.name,
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  context.tr.status,
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              contact.firstName,
-                              style: const TextStyle(fontSize: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  contact.firstName,
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                                Text(
+                                  widget.currentStatus.toString(),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: widget.currentStatus.toString() ==
+                                              context.tr.cancelled
+                                          ? AppColors.red
+                                          : widget.currentStatus.toString() ==
+                                                  context.tr.customer
+                                              ? AppColors.green
+                                              : AppColors.black),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              'Email',
-                              style: TextStyle(
+                            Text(
+                              context.tr.email,
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -112,9 +154,9 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                               style: const TextStyle(fontSize: 15),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              'City',
-                              style: TextStyle(
+                            Text(
+                              context.tr.city,
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -122,14 +164,14 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                               style: const TextStyle(fontSize: 15),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              'Status',
-                              style: TextStyle(
+                            Text(
+                              context.tr.status,
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: const Text('Lead'),
+                              title: Text(context.tr.lead),
                               leading: Radio<ContactStatus>(
                                 value: ContactStatus.lead,
                                 groupValue: _status,
@@ -138,18 +180,24 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: const Text('Cancelled'),
+                              title: Text(
+                                context.tr.customer,
+                                style: const TextStyle(color: AppColors.green),
+                              ),
                               leading: Radio<ContactStatus>(
-                                value: ContactStatus.cancelled,
+                                value: ContactStatus.customer,
                                 groupValue: _status,
                                 onChanged: _handleRadioValueChanged,
                               ),
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: const Text('Customer'),
+                              title: Text(
+                                context.tr.cancelled,
+                                style: const TextStyle(color: AppColors.red),
+                              ),
                               leading: Radio<ContactStatus>(
-                                value: ContactStatus.customer,
+                                value: ContactStatus.cancelled,
                                 groupValue: _status,
                                 onChanged: _handleRadioValueChanged,
                               ),
