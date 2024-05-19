@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_components/mobile_components.dart';
-import 'package:service_center_sales/view/components/labled_textfield.dart';
-import 'package:service_center_sales/view/constants/app_colors.dart';
+import '/view/components/labled_textfield.dart';
+import '/view/constants/app_colors.dart';
 
 import '../../core/inputs.dart';
 

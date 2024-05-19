@@ -6,7 +6,7 @@ import '../../app/config.dart';
 import '../../core/core.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../constants/app_colors.dart';
-import 'login_screen.dart';
+import '../components/login_bottom_sheet.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
