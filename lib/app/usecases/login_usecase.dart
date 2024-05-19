@@ -25,6 +25,8 @@ class LoginUsecase
         try {
           final didCachePassword = await _sharedPrefs.saveString(
               key: LocalKeys.accessToken, value: loginResponse.accessToken);
+          _sharedPrefs.saveString(
+              key: LocalKeys.customerId, value: loginResponse.userId);
           if (didCachePassword ?? false) {
             return const Right(true);
           }
