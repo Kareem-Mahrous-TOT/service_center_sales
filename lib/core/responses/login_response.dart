@@ -1,21 +1,24 @@
 import 'package:equatable/equatable.dart';
 
 class LoginResponse extends Equatable {
-  final String accessToken;
+  final String token;
   final String userId;
+  final String userName;
 
   const LoginResponse({
-    required this.accessToken,
+    required this.token,
     required this.userId,
+    required this.userName,
   });
 
   @override
-  List<Object?> get props => [accessToken, userId];
+  List<Object?> get props => [token, userId, userName];
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      accessToken: json['accessToken'] as String,
+      token: json['token'] as String,
       userId: json['userId'] as String,
+      userName: json['userName'] as String,
     );
   }
 }

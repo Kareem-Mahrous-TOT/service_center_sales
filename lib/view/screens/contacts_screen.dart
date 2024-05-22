@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_components/mobile_components.dart';
-import 'package:service_center_sales/app/config.dart';
-import 'package:service_center_sales/core/core.dart';
-import 'package:service_center_sales/view/constants/app_colors.dart';
 
+import '../../app/config.dart';
+import '../../core/core.dart';
 import '../components/contact_card_item.dart';
+import '../constants/app_colors.dart';
 import '../view.dart';
 
 class ContactsScreen extends StatelessWidget {

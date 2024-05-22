@@ -23,15 +23,19 @@ class LoginUsecase
       (failure) => Left(failure),
       (loginResponse) async {
         try {
-          final didCachePassword = await _sharedPrefs.saveString(
-              key: LocalKeys.accessToken, value: loginResponse.accessToken);
-          _sharedPrefs.saveString(
-              key: LocalKeys.customerId, value: loginResponse.userId);
-          if (didCachePassword ?? false) {
-            return const Right(true);
+          final didCache = await Future.wait([
+            _sharedPrefs.saveString(
+                key: LocalKeys.token, value: loginResponse.token),
+            _sharedPrefs.saveString(
+                key: LocalKeys.userId, value: loginResponse.userId),
+            _sharedPrefs.saveString(
+                key: LocalKeys.userName, value: loginResponse.userName),
+          ]);
+          if (didCache.contains(false) ||
+              didCache.contains(null)) {
+            return const Right(false);
           }
-
-          return const Right(false);
+          return const Right(true);
         } catch (e) {
           return Left(CacheFailure(msg: e.toString()));
         }

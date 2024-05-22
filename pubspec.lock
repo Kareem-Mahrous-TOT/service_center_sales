@@ -337,8 +337,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: dev
-      resolved-ref: d636d2be827dd1476fca5b8f5d513ccf45347c25
+      ref: abualhamd
+      resolved-ref: "72f59e338e57a589afc8e9582a7d3f9534e0b147"
       url: "https://github.com/TOTPLATFORM/mobile_components.git"
     source: git
     version: "0.0.1"
